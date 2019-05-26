@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex3.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,8 +15,9 @@ namespace Ex3.Controllers
             return View();
         }
 
-        public ActionResult Display()
+        public ActionResult Display(string ip, int port)
         {
+            DisplayLocation displayLocation = new DisplayLocation(ip,port);
             return View();
         }
     }
