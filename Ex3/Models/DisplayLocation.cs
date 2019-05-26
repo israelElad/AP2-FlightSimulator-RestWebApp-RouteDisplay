@@ -25,7 +25,6 @@ namespace Ex3.Models
             Client.Instance.WriteToServer("get /position/longitude-deg\r\n");
             string lonStr = Client.Instance.ReadAnswerFromServer();
             Lon = getDoubleFromString(lonStr);
-
             Console.WriteLine(Lat + "----" + Lon);
         }
 
