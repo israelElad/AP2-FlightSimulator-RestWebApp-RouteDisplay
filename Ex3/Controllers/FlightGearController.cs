@@ -22,12 +22,5 @@ namespace Ex3.Controllers
             DisplayLocation displayLocation = new DisplayLocation(ip,port);
             return View();
         }
-
-        [HttpGet]
-        public ActionResult Display(string ip, int port, int time)
-        {
-            RefreshingDisplay refreshingDisplay = new RefreshingDisplay(ip, port, time);
-            return View();
-        }
     }
 }
