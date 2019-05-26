@@ -56,7 +56,8 @@ namespace Ex3.Models
 
         private void SaveToFile(string[] data)
         {
-            System.IO.File.WriteAllLines(this.fileName + ".txt", data);
+            //TODO: change path
+            System.IO.File.WriteAllLines("D:\\"+this.fileName + ".txt", data);
         }
     }
 }
