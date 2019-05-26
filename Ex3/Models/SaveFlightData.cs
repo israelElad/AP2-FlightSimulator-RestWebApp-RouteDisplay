@@ -11,8 +11,12 @@ namespace Ex3.Models
         string ip;
         int port;
         int time;
+        string fileName;
         int totalTime;
         int elapsedTime;
+
+        string[] flightData = new string [512]; //TODO
+        int flightDataIndex = 0;
 
         DisplayUtils displayUtils;
         Timer timer;
@@ -23,6 +27,7 @@ namespace Ex3.Models
             this.ip = ip;
             this.port = port;
             this.time = time;
+            this.fileName = fileName;
             InitializeTimer(time);
             totalTime = 10 * 1000;
             elapsedTime = 0;
@@ -40,10 +45,18 @@ namespace Ex3.Models
         {
             if (elapsedTime > totalTime)
             {
+                SaveToFile(flightData);
                 return;
             }
             displayUtils.ReadLatAndLon(ip, port);
+            flightData[flightDataIndex] = displayUtils.Lat + "~" + displayUtils.Lon;
+            flightDataIndex++;
             elapsedTime += 1000 / time;
+        }
+
+        private void SaveToFile(string[] data)
+        {
+            System.IO.File.WriteAllLines(this.fileName + ".txt", data);
         }
     }
 }
