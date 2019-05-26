@@ -24,5 +24,12 @@ namespace Ex3.Controllers
             DisplayRefreshingLocation displayRefreshingLocation = new DisplayRefreshingLocation(ip, port, time);
             return View();
         }
+
+        [HttpGet]
+        public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
+        {
+            SaveFlightData saveFlightData = new SaveFlightData(ip, port, time,duration,fileName);
+            return View();
+        }
     }
 }
