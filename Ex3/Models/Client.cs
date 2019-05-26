@@ -53,16 +53,14 @@ namespace Ex3.Models
             IsConnected = true;
         }
 
-        // read from client and separate by commas
-        public void WriteToServer(String[] lines)
+        // write to server
+        public void WriteToServer(String line)
         {
             thread = new Thread(() =>
             {
                 if (IsConnected)
                 {
-                    for (int i = 0; i < lines.Length; i++)
-                    {
-                        byte[] lineWithEnter = System.Text.Encoding.ASCII.GetBytes(lines[i] + "\r\n");
+                        byte[] lineWithEnter = System.Text.Encoding.ASCII.GetBytes(line + "\r\n");
                         try
                         {
                             soc.Send(lineWithEnter);
@@ -74,7 +72,6 @@ namespace Ex3.Models
                             CloseClient();
                             return;
                         }
-                    }
                 }
                 else
                 {
@@ -82,6 +79,12 @@ namespace Ex3.Models
                 }
             });
             thread.Start();
+        }
+
+        // read answer from server
+        public void ReadAnswerFromServer(byte[] buffer)
+        {
+            soc.Receive(buffer);
         }
 
         // close client
