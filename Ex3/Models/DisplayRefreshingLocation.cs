@@ -1,15 +1,31 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Timers;
 
 namespace Ex3.Models
 {
-    public class DisplayLocation
+    public class DisplayRefreshingLocation
     {
-        public double Lat {get;set;}
-        public double Lon {get;set;}
+        public double Lat { get; set; }
+        public double Lon { get; set; }
 
-        public DisplayLocation(string ip, int port){
-            ReadLatAndLon(ip,port);
+        public string IP { get; set; }
+        public int Port { get; set; }
+
+        Timer timer;
+
+        public DisplayRefreshingLocation(string ip, int port, int time)
+        {
+            IP = ip;
+            Port = port;
+            timer = new Timer(time * 1000);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            ReadLatAndLon(IP, Port);
         }
 
         public void ReadLatAndLon(string ip, int port)
