@@ -22,6 +22,7 @@ namespace Ex3.Models
             displayUtils = new DisplayUtils();
             this.ip = ip;
             this.port = port;
+            this.time = time;
             InitializeTimer(time);
             totalTime = 10 * 1000;
             elapsedTime = 0;
