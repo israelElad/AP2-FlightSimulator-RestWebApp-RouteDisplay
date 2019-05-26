@@ -5,13 +5,13 @@ namespace Ex3.Controllers
 {
     public class FlightGearController : Controller
     {
-        // default
+        /* default */
         public ActionResult Index()
         {
             return View();
         }
 
-        // Sample only one time the position of the plane and displaying it on the map
+        /* Sample only one time the position of the plane and displaying it on the map */
         [HttpGet]
         public ActionResult DisplayLocation(string ip, int port)
         {
@@ -19,7 +19,7 @@ namespace Ex3.Controllers
             return View(displayLocation);
         }
 
-        // Sample 4 times per second the position of the plane and displaying it on the map
+        /* Sample 4 times per second the position of the plane and displaying it on the map */
         [HttpGet]
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {

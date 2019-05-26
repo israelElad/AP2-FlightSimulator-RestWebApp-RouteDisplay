@@ -20,7 +20,7 @@ namespace Ex3.Models
             this.IsConnected = false;
         }
 
-        // instance method for singleton pattern
+        /* instance method for singleton pattern */
         public static Client Instance
         {
             get
@@ -33,7 +33,7 @@ namespace Ex3.Models
             }
         }
 
-        // open server
+        /* open server */
         public void ConnectToServer(string IP, int port)
         {
             soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -54,7 +54,7 @@ namespace Ex3.Models
             IsConnected = true;
         }
 
-        // write to server
+        /* write to server */
         public void WriteToServer(String line)
         {
             thread = new Thread(() =>
@@ -82,7 +82,7 @@ namespace Ex3.Models
             thread.Start();
         }
 
-        // read answer from server
+        /* read answer from server */
         public string ReadAnswerFromServer()
         {
             byte[] buffer = new byte[512];
@@ -91,7 +91,7 @@ namespace Ex3.Models
             return bufferStr;
         }
 
-        // close client
+        /* close client */
         public void CloseClient()
         {
             soc.Close();

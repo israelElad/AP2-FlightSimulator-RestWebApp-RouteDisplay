@@ -11,7 +11,7 @@ namespace Ex3.Models
         public double Lat { get; set; }
         public double Lon { get; set; }
 
-        // Get a double from a string by using a regular expression
+        /* Get a double from a string by using a regular expression */
         public double GetDoubleFromString(string str)
         {
             string pattern = "[-+]?[0-9]*\\.?[0-9]+";
@@ -26,7 +26,7 @@ namespace Ex3.Models
             return num;
         }
 
-        // Read the values of Lat and Lon from the plane
+        /* Read the values of Lat and Lon from the plane */
         public void ReadLatAndLon(string ip, int port)
         {
             // connect the plane
