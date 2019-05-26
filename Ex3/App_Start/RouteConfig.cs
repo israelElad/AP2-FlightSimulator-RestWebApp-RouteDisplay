@@ -16,8 +16,11 @@ namespace Ex3
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "FlightGear", action = "display", id = UrlParameter.Optional }
+                defaults: new { controller = "FlightGear", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute("Display", "Display/{ip}/{port}",
+            defaults: new { controller = "FlightGear", action = "Display" });
         }
     }
 }

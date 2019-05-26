@@ -14,7 +14,7 @@ namespace Ex3.Controllers
             return View();
         }
 
-        public ActionResult display()
+        public ActionResult Display()
         {
             return View();
         }
