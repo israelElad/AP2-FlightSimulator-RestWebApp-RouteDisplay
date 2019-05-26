@@ -20,15 +20,16 @@ namespace Ex3.Models
             Client.Instance.ConnectToServer(ip, port);
             Client.Instance.WriteToServer("get /position/latitude-deg\r\n");
             string latStr = Client.Instance.ReadAnswerFromServer();
-            Lat = getDoubleFromString(latStr);
+            Lat = GetDoubleFromString(latStr);
 
             Client.Instance.WriteToServer("get /position/longitude-deg\r\n");
             string lonStr = Client.Instance.ReadAnswerFromServer();
-            Lon = getDoubleFromString(lonStr);
+            Lon = GetDoubleFromString(lonStr);
+
             Console.WriteLine(Lat + "----" + Lon);
         }
 
-        public double getDoubleFromString(string str)
+        public double GetDoubleFromString(string str)
         {
             string pattern = "[-+]?[0-9]*\\.?[0-9]+";
             Regex reg =new Regex(pattern);

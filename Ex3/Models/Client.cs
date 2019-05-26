@@ -87,7 +87,7 @@ namespace Ex3.Models
         {
             byte[] buffer = new byte[512];
             soc.Receive(buffer);
-            string bufferStr = System.Text.Encoding.Default.GetString(buffer);
+            string bufferStr = System.Text.Encoding.ASCII.GetString(buffer);
             return bufferStr;
         }
 
