@@ -84,8 +84,6 @@ namespace Ex3.Models
             thread.Start();
         }
 
-
-
         // close client
         public void CloseClient()
         {
