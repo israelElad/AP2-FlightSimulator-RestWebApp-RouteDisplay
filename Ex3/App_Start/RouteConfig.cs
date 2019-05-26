@@ -13,7 +13,7 @@ namespace Ex3
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Display", "display/{ip}/{port}",
+            routes.MapRoute("Display", "display/{ip}/{port}/{time}",
             defaults: new { controller = "FlightGear", action = "Display" });
 
             routes.MapRoute(

@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="Models\DisplayLocation.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\RefreshingDisplay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
