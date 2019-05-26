@@ -18,6 +18,7 @@ namespace Ex3.Controllers
         [HttpGet]
         public ActionResult Display(string ip, int port)
         {
+            Console.WriteLine("in Display");
             DisplayLocation displayLocation = new DisplayLocation(ip,port);
             return View();
         }
