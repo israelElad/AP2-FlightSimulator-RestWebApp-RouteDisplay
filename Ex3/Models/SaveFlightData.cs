@@ -15,7 +15,7 @@ namespace Ex3.Models
         int totalTime;
         int elapsedTime;
 
-        string[] flightData = new string [512]; //TODO:
+        string[] flightData = new string [512]; //TODO: 512 ?
         int flightDataIndex = 0;
 
         DisplayUtils displayUtils;

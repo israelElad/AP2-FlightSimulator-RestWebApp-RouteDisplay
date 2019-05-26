@@ -3,6 +3,7 @@ using System.Timers;
 
 namespace Ex3.Models
 {
+    // Sample 4 times per second the position of the plane and displaying it on the map
     public class DisplayRefreshingLocation
     {
         string ip;
@@ -21,12 +22,16 @@ namespace Ex3.Models
 
         private void InitializeTimer(int time)
         {
+            // set the timer to 4 times per second
             timer = new Timer(1000 / time);
+
+            // add the function which will be activated at times defined by the timer
             timer.Elapsed += OnTimedEvent;
             timer.AutoReset = true;
             timer.Enabled = true;
         }
 
+        /* An event that sample the values ​​from the plane only one time */
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             displayUtils.ReadLatAndLon(ip, port);
