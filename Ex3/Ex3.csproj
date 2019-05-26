@@ -111,7 +111,8 @@
     </Compile>
     <Compile Include="Models\DisplayLocation.cs" />
     <Compile Include="Models\Client.cs" />
-    <Compile Include="Models\RefreshingDisplay.cs" />
+    <Compile Include="Models\DisplayRefreshingLocation.cs" />
+    <Compile Include="Models\DisplayUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +123,10 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\FlightGear\Display.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\FlightGear\Index.cshtml" />
+    <Content Include="Views\FlightGear\DisplayRefreshingLocation.cshtml" />
+    <Content Include="Views\FlightGear\DisplayLocation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
