@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
-using System.Web;
+﻿using System.Timers;
 
 namespace Ex3.Models
 {
+    /*
+     * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
+     * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
+     */
     public class SaveFlightData
     {
         string ip;
@@ -33,6 +33,9 @@ namespace Ex3.Models
             elapsedTime = 0;
         }
 
+        /*
+         * Initialize the timer to activate the timed event 'time' times per second.
+         */ 
         private void InitializeTimer(int time)
         {
             timer = new Timer(1000 / time);
@@ -41,6 +44,10 @@ namespace Ex3.Models
             timer.Enabled = true;
         }
 
+        /*
+         * Event to run when timer resets:
+         * read flight data and when total sampling time exceeds - save the flight data to file
+         */
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             if (elapsedTime > totalTime)
@@ -54,6 +61,9 @@ namespace Ex3.Models
             elapsedTime += 1000 / time;
         }
 
+        /*
+         * Save to file
+         */ 
         private void SaveToFile(string[] data)
         {
             //TODO: change path

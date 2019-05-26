@@ -27,6 +27,10 @@ namespace Ex3.Controllers
             return View();
         }
 
+        /*
+        * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
+        * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
+         */
         [HttpGet]
         public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
         {
