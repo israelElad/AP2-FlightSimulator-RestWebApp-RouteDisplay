@@ -82,9 +82,12 @@ namespace Ex3.Models
         }
 
         // read answer from server
-        public void ReadAnswerFromServer(byte[] buffer)
+        public string ReadAnswerFromServer()
         {
+            byte[] buffer = new byte[512];
             soc.Receive(buffer);
+            string bufferStr = System.Text.Encoding.Default.GetString(buffer);
+            return bufferStr;
         }
 
         // close client

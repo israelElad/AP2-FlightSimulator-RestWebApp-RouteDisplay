@@ -15,6 +15,7 @@ namespace Ex3.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Display(string ip, int port)
         {
             DisplayLocation displayLocation = new DisplayLocation(ip,port);
