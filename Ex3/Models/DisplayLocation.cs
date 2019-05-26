@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Ex3.Models
 {
@@ -25,8 +22,7 @@ namespace Ex3.Models
             Client.Instance.WriteToServer("get /position/longitude-deg\r\n");
             string lonStr = Client.Instance.ReadAnswerFromServer();
             Lon = GetDoubleFromString(lonStr);
-
-            Console.WriteLine(Lat + "----" + Lon);
+            System.Diagnostics.Debug.WriteLine(Lat + "----" + Lon);
         }
 
         public double GetDoubleFromString(string str)

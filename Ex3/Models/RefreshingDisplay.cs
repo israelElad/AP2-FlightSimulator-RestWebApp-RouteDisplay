@@ -9,6 +9,7 @@ namespace Ex3.Models
     {
         public RefreshingDisplay(string ip, int port, int time)
         {
+
         }
     }
 }

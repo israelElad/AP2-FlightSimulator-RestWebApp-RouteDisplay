@@ -19,7 +19,7 @@ namespace Ex3.Controllers
         public ActionResult Display(string ip, int port)
         {
             DisplayLocation displayLocation = new DisplayLocation(ip,port);
-            return View();
+            return View(displayLocation);
         }
     }
 }
