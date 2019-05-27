@@ -5,14 +5,15 @@
 }
 
 <img id="map" src="~/Image/map.png" alt="map" style="position:absolute; height:100%; width:100%"; />
-<!img  id="airplane" src="~/Image/airplane.png" alt="airplane" style="height:30px; width:30px"; />
+<img  id="airplane" src="~/Image/airplane.png" alt="airplane" style="position:absolute; height:30px; width:30px"; />
 <canvas id="airplaneCanvas" style="position:absolute; height:100%; width:100%" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <body>
     <script>
-
-        var ctx = cnvs.getContext("2d");
-        var img = document.getElementById("map");
-        ctx.drawImage(img, 0, 0);
+        var ctx = document.getElementById("airplaneCanvas").getContext("2d");
+        var lat = @Convert.ToString(this.Model.displayUtils.Lat) + "px";
+        var lon = @Convert.ToString(this.Model.displayUtils.Lon) + "px";
+        document.getElementById("airplane").style.top = "lat";
+        document.getElementById("airplane").style.left = "lon";
     </script>
 </body>

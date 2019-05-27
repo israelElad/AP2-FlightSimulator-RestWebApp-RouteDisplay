@@ -7,7 +7,7 @@ namespace Ex3.Models
     /* Sample only one time the position of the plane and displaying it on the map */
     public class DisplayLocation
     {
-        DisplayUtils displayUtils;
+        public DisplayUtils displayUtils;
 
         public DisplayLocation(string ip, int port){
             displayUtils = new DisplayUtils();
