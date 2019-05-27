@@ -11,9 +11,7 @@
 <body>
     <script>
         var ctx = document.getElementById("airplaneCanvas").getContext("2d");
-        var lat = @Convert.ToString(this.Model.displayUtils.Lat) + "px";
-        var lon = @Convert.ToString(this.Model.displayUtils.Lon) + "px";
-        document.getElementById("airplane").style.top = "lat";
-        document.getElementById("airplane").style.left = "lon";
+        document.getElementById("airplane").style.top = @this.Model.displayUtils.Lat + "px";
+        document.getElementById("airplane").style.left = @this.Model.displayUtils.Lon + "px";
     </script>
 </body>
