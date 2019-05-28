@@ -47,8 +47,7 @@ namespace Ex3.Models
             mutex.WaitOne();
             // connect the plane
             Client.Instance.ConnectToServer(ip, port);
-            mutex.ReleaseMutex();
-
+            
             // Read Lat's value
             Client.Instance.WriteToServer("get /position/latitude-deg\r\n");
             string latStr = Client.Instance.ReadAnswerFromServer();
@@ -70,6 +69,8 @@ namespace Ex3.Models
             Throttle = GetDoubleFromString(throttleStr);
 
             System.Diagnostics.Debug.WriteLine(Lat + "----" + Lon + "----" + Rudder + "----" + Throttle);
+
+            mutex.ReleaseMutex();
         }
     }
 }
