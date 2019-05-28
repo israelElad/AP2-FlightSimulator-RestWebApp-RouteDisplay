@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 
 namespace Ex3.Models
@@ -13,12 +14,16 @@ namespace Ex3.Models
         public double Rudder { get; set; }
         public double Throttle { get; set; }
 
+        Mutex mutex;
+
         public DisplayUtils()
         {
             Lat = 0;
             Lon = 0;
             Rudder = 0;
             Throttle = 0;
+
+            mutex = new Mutex();
         }
 
         /* Get a double from a string by using a regular expression */
@@ -39,8 +44,10 @@ namespace Ex3.Models
         /* Read the values of Lat and Lon from the plane */
         public void ReadLatAndLon(string ip, int port)
         {
+            mutex.WaitOne();
             // connect the plane
             Client.Instance.ConnectToServer(ip, port);
+            mutex.ReleaseMutex();
 
             // Read Lat's value
             Client.Instance.WriteToServer("get /position/latitude-deg\r\n");
