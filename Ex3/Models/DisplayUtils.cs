@@ -10,6 +10,16 @@ namespace Ex3.Models
     {
         public double Lat { get; set; }
         public double Lon { get; set; }
+        public double Rudder { get; set; }
+        public double Throttle { get; set; }
+
+        public DisplayUtils()
+        {
+            Lat = 0;
+            Lon = 0;
+            Rudder = 0;
+            Throttle = 0;
+        }
 
         /* Get a double from a string by using a regular expression */
         public double GetDoubleFromString(string str)
@@ -42,7 +52,17 @@ namespace Ex3.Models
             string lonStr = Client.Instance.ReadAnswerFromServer();
             Lon = GetDoubleFromString(lonStr);
 
-            System.Diagnostics.Debug.WriteLine(Lat + "----" + Lon);
+            // Read Rudder's value
+            Client.Instance.WriteToServer("get /controls/flight/rudder\r\n");
+            string rudderStr = Client.Instance.ReadAnswerFromServer();
+            Rudder = GetDoubleFromString(rudderStr);
+
+            // Read Throttle's value
+            Client.Instance.WriteToServer("get /controls/engines/current-engine/throttle\r\n");
+            string throttleStr = Client.Instance.ReadAnswerFromServer();
+            Throttle = GetDoubleFromString(throttleStr);
+
+            System.Diagnostics.Debug.WriteLine(Lat + "----" + Lon + "----" + Rudder + "----" + Throttle);
         }
     }
 }

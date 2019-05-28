@@ -24,7 +24,7 @@ namespace Ex3.Controllers
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
             DisplayRefreshingLocation displayRefreshingLocation = new DisplayRefreshingLocation(ip, port, time);
-            return View();
+            return View(displayRefreshingLocation);
         }
 
         /*
