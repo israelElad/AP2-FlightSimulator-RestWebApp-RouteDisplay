@@ -2,7 +2,6 @@
 
 namespace Ex3.Models
 {
-
     /*
      * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
      * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
