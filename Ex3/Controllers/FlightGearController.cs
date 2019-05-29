@@ -18,7 +18,6 @@ namespace Ex3.Controllers
         public ActionResult DisplayLocation(string ip, int port)
         {
             InfoModel.Instance.ReadOnce(ip, port);
-
             Session["Lon"] = InfoModel.Instance.Lon;
             Session["Lat"] = InfoModel.Instance.Lat;
 
