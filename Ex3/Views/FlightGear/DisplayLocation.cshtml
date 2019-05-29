@@ -1,6 +1,4 @@
-﻿@model Ex3.Models.DisplayLocation
-
-@{
+﻿@{
     ViewBag.Title = "DisplayLocation";
 }
 
@@ -10,8 +8,8 @@
 <body>
     <script>
         var map = document.getElementById("map");
-        var x = (@this.Model.displayUtils.Lon + 180) * (map.offsetWidth / 360);
-        var y = (@this.Model.displayUtils.Lat + 90) * (map.offsetHeight / 180);
+        var x = (@Session["Lon"] + 180) * (map.offsetWidth / 360);
+        var y = (@Session["Lat"] + 90) * (map.offsetHeight / 180);
         document.getElementById("airplane").style.top = y + "px";
         document.getElementById("airplane").style.left = x + "px";
     </script>

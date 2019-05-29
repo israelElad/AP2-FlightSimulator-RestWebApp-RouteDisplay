@@ -10,7 +10,6 @@ namespace Ex3.Models
     public class Client
     {
         public bool IsConnected { get; set; }
-        Thread thread;
         Socket soc;
 
         // instance for singleton pattern

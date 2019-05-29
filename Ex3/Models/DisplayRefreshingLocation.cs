@@ -10,12 +10,10 @@ namespace Ex3.Models
         string ip;
         int port;
 
-        public DisplayUtils displayUtils;
         Timer timer;
 
         public DisplayRefreshingLocation(string ip, int port, int time)
         {
-            displayUtils = new DisplayUtils();
             this.ip = ip;
             this.port = port;
             InitializeTimer(time);
@@ -36,7 +34,7 @@ namespace Ex3.Models
         /* An event that sample the values ​​from the plane only one time */
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            displayUtils.ReadLatAndLon(ip, port);
+            //displayUtils.ReadLatAndLon(ip, port);
         }
     }
 }

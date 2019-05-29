@@ -1,4 +1,7 @@
-﻿using System.Timers;
+﻿using System;
+using System.IO;
+using System.Timers;
+using System.Web;
 
 namespace Ex3.Models
 {
@@ -18,18 +21,18 @@ namespace Ex3.Models
         string[] flightData = new string [512]; //TODO: 512 ?
         int flightDataIndex = 0;
 
-        DisplayUtils displayUtils;
+        public const string SCENARIO_FILE = "~/App_Data/{0}.txt";           // The Path of the Secnario
+
         Timer timer;
 
         public SaveFlightData(string ip, int port, int time, int duration, string fileName)
         {
-            displayUtils = new DisplayUtils();
             this.ip = ip;
             this.port = port;
             this.time = time;
             this.fileName = fileName;
             InitializeTimer(time);
-            totalTime = 10 * 1000;
+            totalTime = duration * 1;
             elapsedTime = 0;
         }
 
@@ -50,13 +53,13 @@ namespace Ex3.Models
          */
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            if (elapsedTime > totalTime)
+            if (elapsedTime >= totalTime)
             {
-                SaveToFile(flightData);
+                //SaveToFile(flightData);
                 return;
             }
-            displayUtils.ReadLatAndLon(ip, port);
-            flightData[flightDataIndex] = displayUtils.Lat + "~" + displayUtils.Lon;
+            //displayUtils.ReadLatAndLon(ip, port);
+            //flightData[flightDataIndex] = displayUtils.Lat + "~" + displayUtils.Lon + "~" + displayUtils.Rudder + "~" + displayUtils.Throttle;
             flightDataIndex++;
             elapsedTime += 1000 / time;
         }
@@ -64,10 +67,21 @@ namespace Ex3.Models
         /*
          * Save to file
          */ 
-        private void SaveToFile(string[] data)
+        private void SaveToFile(string data)
         {
-            //TODO: change path
-            System.IO.File.WriteAllLines("D:\\"+this.fileName + ".txt", data);
+            string path = HttpContext.Current.Server.MapPath(String.Format(SCENARIO_FILE, "file1"));
+            if (!File.Exists(path))
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
+                {
+                    file.WriteLine("hello");
+                }
+            }
+            else
+            {
+                //string s = { "hi", "bye" };
+                //File.AppendAllLines(s);
+            }
         }
     }
 }

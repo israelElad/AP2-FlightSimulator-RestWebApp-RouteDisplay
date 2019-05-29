@@ -1,5 +1,7 @@
 ﻿using Ex3.Models;
+using System.Text;
 using System.Web.Mvc;
+using System.Xml;
 
 namespace Ex3.Controllers
 {
@@ -15,16 +17,30 @@ namespace Ex3.Controllers
         [HttpGet]
         public ActionResult DisplayLocation(string ip, int port)
         {
-            DisplayLocation displayLocation = new DisplayLocation(ip,port);
-            return View(displayLocation);
+            InfoModel.Instance.ReadOnce(ip, port);
+
+            Session["Lon"] = InfoModel.Instance.Lon;
+            Session["Lat"] = InfoModel.Instance.Lat;
+
+            return View(InfoModel.Instance);
         }
 
         /* Sample 4 times per second the position of the plane and displaying it on the map */
         [HttpGet]
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
-            DisplayRefreshingLocation displayRefreshingLocation = new DisplayRefreshingLocation(ip, port, time);
-            return View(displayRefreshingLocation);
+            Session["time"] = time;
+
+            InfoModel.Instance.ReadAlways(ip, port);
+            return View(InfoModel.Instance);
+        }
+
+        [HttpPost]
+        public string GetFlightData()
+        {
+            DisplayFlight displayFlight = InfoModel.Instance.DisplayFlight;
+
+            return ToXml(displayFlight);
         }
 
         /*
@@ -36,6 +52,24 @@ namespace Ex3.Controllers
         {
             SaveFlightData saveFlightData = new SaveFlightData(ip, port, time,duration,fileName);
             return View();
+        }
+
+        private string ToXml(DisplayFlight display)
+        {
+            //Initiate XML stuff
+            StringBuilder sb = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings();
+            XmlWriter writer = XmlWriter.Create(sb, settings);
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Display");
+
+            display.ToXml(writer);
+
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+            return sb.ToString();
         }
     }
 }
