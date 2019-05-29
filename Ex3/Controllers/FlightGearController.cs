@@ -29,10 +29,12 @@ namespace Ex3.Controllers
         [HttpGet]
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
-            Session["time"] = time;
+            Session["Lon"] = InfoModel.Instance.Lon;
+            Session["Lat"] = InfoModel.Instance.Lat;
+            Session["Time"] = time;
 
             InfoModel.Instance.ReadAlways(ip, port);
-            return View(InfoModel.Instance);
+            return View();
         }
 
         [HttpPost]
