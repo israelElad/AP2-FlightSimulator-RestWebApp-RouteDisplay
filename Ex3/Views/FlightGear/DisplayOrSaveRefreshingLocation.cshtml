@@ -13,14 +13,9 @@
         var map = document.getElementById("map");
         var airplane = document.getElementById("airplane");
         var Lon, Lat, x, y;
-        var shouldStop=false;
-        var i = 0;
 
         Timer = (function () {
             $.post("@Url.Action("GetFlightData")").done(function (xml) {
-                if (!shouldStop) { //fix busy waiting
-                    i++;
-                    console.log("In timer: "+ i);
                     var xmlDoc = $.parseXML(xml),
                         $xml = $(xmlDoc),
                         Lat = $xml.find("Lat").text();
@@ -34,24 +29,15 @@
 
                     airplane.style.top = y + "px";
                     airplane.style.left = x + "px";
-                }
             });
         });
-
-        function stopTimer() {
-            //clearTimeout(Timer);
-            shouldStop = true;
-        }
-
-        setInterval(Timer, @Session["Time"] * 1000);
-
+        var setIntervalRetVal=setInterval(Timer, @Session["Time"] * 1000);
         if (@Session["Duration"]!= -1) {  //todo: duration won't be null due to "session"
             setTimeout(stopTimer,@Session["Duration"] * 1000);
         }
-        console.log("Duration: "+ @Session["Duration"]);
-        console.log("Time: "+ @Session["Time"]);
-
+        function stopTimer() {
+            clearInterval(setIntervalRetVal);
+        }
         Timer();
-
     </script>
 </body>
