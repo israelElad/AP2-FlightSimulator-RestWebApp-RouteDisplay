@@ -112,7 +112,6 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\DisplayFlight.cs" />
     <Compile Include="Models\InfoModel.cs" />
-    <Compile Include="Models\SaveFlightData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,9 +124,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\FlightGear\Index.cshtml" />
-    <Content Include="Views\FlightGear\DisplayRefreshingLocation.cshtml" />
+    <Content Include="Views\FlightGear\DisplayOrSaveRefreshingLocation.cshtml" />
     <Content Include="Views\FlightGear\DisplayLocation.cshtml" />
-    <Content Include="Views\FlightGear\SaveFlightData.cshtml" />
     <Content Include="Views\FlightGear\LoadFlightData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

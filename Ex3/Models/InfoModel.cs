@@ -42,8 +42,7 @@ namespace Ex3.Models
         {
             // connect the plane
             Client.Instance.ConnectToServer(ip, port);
-
-            Read();
+            Read();            
         }
 
         public void ReadAlways(string ip, int port)
@@ -125,7 +124,6 @@ namespace Ex3.Models
             {
                 string[] line = new string[1];
                 line[0] = string.Copy(data);
-                System.Diagnostics.Debug.WriteLine("line = " + line[0]);
                 File.AppendAllLines(filePath, line);
             }
         }
