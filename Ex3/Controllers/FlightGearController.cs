@@ -18,41 +18,30 @@ namespace Ex3.Controllers
         public ActionResult DisplayLocation(string ip, int port)
         {
             InfoModel.Instance.ReadOnce(ip, port);
-            Session["Lon"] = InfoModel.Instance.Lon;
-            Session["Lat"] = InfoModel.Instance.Lat;
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
 
-            return View(InfoModel.Instance);
+            return View();
         }
 
         /* Sample 4 times per second the position of the plane and displaying it on the map */
         [HttpGet]
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
-            Session["Lon"] = InfoModel.Instance.Lon;
-            Session["Lat"] = InfoModel.Instance.Lat;
             Session["Time"] = time;
 
             InfoModel.Instance.ReadAlways(ip, port);
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
             return View();
         }
 
         [HttpPost]
         public string GetFlightData()
         {
-            DisplayFlight displayFlight = InfoModel.Instance.DisplayFlight;
+            DisplayFlight displayFlight = InfoModel.Instance.DF;
 
             return ToXml(displayFlight);
-        }
-
-        /*
-        * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
-        * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
-         */
-        [HttpGet]
-        public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
-        {
-            SaveFlightData saveFlightData = new SaveFlightData(ip, port, time,duration,fileName);
-            return View();
         }
 
         private string ToXml(DisplayFlight display)
@@ -71,6 +60,17 @@ namespace Ex3.Controllers
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
+        }
+
+        /*
+        * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
+        * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
+         */
+        [HttpGet]
+        public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
+        {
+            SaveFlightData saveFlightData = new SaveFlightData(ip, port, time,duration,fileName);
+            return View();
         }
     }
 }
