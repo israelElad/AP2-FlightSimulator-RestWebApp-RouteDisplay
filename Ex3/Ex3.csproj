@@ -126,6 +126,7 @@
     <Content Include="Views\FlightGear\Index.cshtml" />
     <Content Include="Views\FlightGear\DisplayOrSaveRefreshingLocation.cshtml" />
     <Content Include="Views\FlightGear\DisplayLocation.cshtml" />
+    <Content Include="Views\FlightGear\LoadFlightData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

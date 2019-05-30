@@ -1,4 +1,5 @@
 ﻿using Ex3.Models;
+using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using System.Xml;
@@ -13,15 +14,24 @@ namespace Ex3.Controllers
             return View();
         }
 
-        /* Sample only one time the position of the plane and displaying it on the map */
+        /* Sample only one time the position of the plane and displaying it on the map *or* load flight
+         * data from file and display it like an animation */
         [HttpGet]
-        public ActionResult DisplayLocation(string ip, int port)
+        public ActionResult DisplayLocationOrLoadFlightData(string IPOrFileName, int PortOrTime)
         {
-            InfoModel.Instance.ReadOnce(ip, port);
-            Session["Lon"] = InfoModel.Instance.DF.Lon;
-            Session["Lat"] = InfoModel.Instance.DF.Lat;
+            IPAddress ip;
+            if (IPAddress.TryParse(IPOrFileName, out ip))
+            {
+                InfoModel.Instance.ReadOnce(IPOrFileName, PortOrTime);
+                Session["Lon"] = InfoModel.Instance.DF.Lon;
+                Session["Lat"] = InfoModel.Instance.DF.Lat;
 
-            return View();
+                return View("DisplayLocation");
+            }
+            Session["Time"] = PortOrTime;
+            InfoModel.Instance.FileName = IPOrFileName;
+            InfoModel.Instance.LoadFromFile();
+            return View("LoadFlightData");
         }
 
         /* Sample 4 times per second the position of the plane and displaying it on the map */
@@ -31,6 +41,8 @@ namespace Ex3.Controllers
             Session["Time"] = time;
             Session["Duration"] = -1;
             InfoModel.Instance.ReadAlways(ip, port);
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
 
             return View("DisplayOrSaveRefreshingLocation");
         }
