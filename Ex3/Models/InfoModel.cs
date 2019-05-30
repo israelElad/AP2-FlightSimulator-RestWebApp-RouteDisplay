@@ -6,12 +6,7 @@ namespace Ex3.Models
 {
     public class InfoModel
     {
-        public double Lat { get; set; }
-        public double Lon { get; set; }
-        public double Rudder { get; set; }
-        public double Throttle { get; set; }
-
-        public DisplayFlight DisplayFlight { get; set; }
+        public DisplayFlight DF { get; set; }
 
         private Mutex mutex;
 
@@ -21,7 +16,7 @@ namespace Ex3.Models
         private InfoModel()
         {
             mutex = new Mutex();
-            DisplayFlight = new DisplayFlight();
+            DF = new DisplayFlight();
         }
 
         /* instance method for singleton pattern */
@@ -65,24 +60,24 @@ namespace Ex3.Models
             // Read Lat's value
             Client.Instance.WriteToServer("get /position/latitude-deg\r\n");
             string latStr = Client.Instance.ReadAnswerFromServer();
-            Lat = GetDoubleFromString(latStr);
+            DF.Lat = GetDoubleFromString(latStr);
 
             // Read Lon's value
             Client.Instance.WriteToServer("get /position/longitude-deg\r\n");
             string lonStr = Client.Instance.ReadAnswerFromServer();
-            Lon = GetDoubleFromString(lonStr);
+            DF.Lon = GetDoubleFromString(lonStr);
 
             // Read Rudder's value
             Client.Instance.WriteToServer("get /controls/flight/rudder\r\n");
             string rudderStr = Client.Instance.ReadAnswerFromServer();
-            Rudder = GetDoubleFromString(rudderStr);
+            DF.Rudder = GetDoubleFromString(rudderStr);
 
             // Read Throttle's value
             Client.Instance.WriteToServer("get /controls/engines/current-engine/throttle\r\n");
             string throttleStr = Client.Instance.ReadAnswerFromServer();
-            Throttle = GetDoubleFromString(throttleStr);
+            DF.Throttle = GetDoubleFromString(throttleStr);
 
-            System.Diagnostics.Debug.WriteLine(Lat + "----" + Lon + "----" + Rudder + "----" + Throttle);
+            System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
             mutex.ReleaseMutex();
         }
 
