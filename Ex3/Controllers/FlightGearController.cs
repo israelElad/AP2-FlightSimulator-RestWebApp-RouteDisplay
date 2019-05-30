@@ -52,7 +52,7 @@ namespace Ex3.Controllers
             XmlWriter writer = XmlWriter.Create(sb, settings);
 
             writer.WriteStartDocument();
-            writer.WriteStartElement("Display");
+            writer.WriteStartElement("Displays");
 
             display.ToXml(writer);
 
