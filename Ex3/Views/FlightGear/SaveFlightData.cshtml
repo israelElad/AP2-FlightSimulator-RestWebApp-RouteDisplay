@@ -6,8 +6,35 @@
 <img id="map" src="~/Image/map.png" alt="map" style="position:absolute; height:100%; width:100%; top:0; left:0" ; />
 <img id="airplane" src="~/Image/airplane.png" alt="airplane" style="position:absolute; height:25px; width:25px" ; />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
 <body>
     <script>
+        var map = document.getElementById("map");
+        var airplane = document.getElementById("airplane");
+
+        var Lon, Lat, x, y;
+
+        Timer = (function () {
+            $.post("@Url.Action("GetFlightData")").done(function (xml) {
+
+                var xmlDoc = $.parseXML(xml),
+                $xml = $(xmlDoc),
+                Lat = $xml.find("Lat").text();
+                Lon = $xml.find("Lon").text();
+
+                $("#prodLon").text(Lon);
+                $("#prodLat").text(Lat);
+
+                x = (parseFloat(Lon) + 180) * (map.offsetWidth / 360);
+                y = (parseFloat(Lat) + 90) * (map.offsetHeight / 180);
+
+                airplane.style.top = y + "px";
+                airplane.style.left = x + "px";
+            });
+        });
+
+        setInterval(Timer, @Session["Time"] * 1000);
+        Timer();
 
     </script>
 </body>

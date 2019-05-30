@@ -9,15 +9,9 @@
 <body>
     <script>
         var map = document.getElementById("map");
-
-        var Lon = @Session["Lon"];
-        var Lat = @Session["Lat"];
-        console.log("Lon:" + Lon + "    Lat:" + Lat);
-        var x = (Lon + 180) * (map.offsetWidth / 360);
-        var y = (Lat + 90) * (map.offsetHeight / 180);
         var airplane = document.getElementById("airplane");
-        airplane.style.top = y + "px";
-        airplane.style.left = x + "px";
+
+        var Lon, Lat, x, y;
 
         Timer = (function () {
             $.post("@Url.Action("GetFlightData")").done(function (xml) {
@@ -26,17 +20,12 @@
                 $xml = $(xmlDoc),
                 Lat = $xml.find("Lat").text();
                 Lon = $xml.find("Lon").text();
-                console.log("LonA:" + Lon + "    LatA:" + Lat);
 
                 $("#prodLon").text(Lon);
                 $("#prodLat").text(Lat);
 
                 x = (parseFloat(Lon) + 180) * (map.offsetWidth / 360);
                 y = (parseFloat(Lat) + 90) * (map.offsetHeight / 180);
-                console.log("LonB:" + Lon + "    LatB:" + Lat);
-                console.log("map.offsetWidth:" + map.offsetWidth + "    map.offsetHeight:" + map.offsetHeight);
-                console.log("X:" + x + "    Y:" + y);
-
 
                 airplane.style.top = y + "px";
                 airplane.style.left = x + "px";

@@ -1,22 +1,28 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web;
 
 namespace Ex3.Models
 {
     public class InfoModel
     {
         public DisplayFlight DF { get; set; }
-
         private Mutex mutex;
+        public string FileName { get; set; }
+        public bool Save { get; set; }
+
+        public const string SCENARIO_FILE = "~/App_Data/{0}.txt";           // The Path of the Secnario
 
         // instance for singleton pattern
         private static InfoModel instance = null;
 
         private InfoModel()
         {
-            mutex = new Mutex();
             DF = new DisplayFlight();
+            mutex = new Mutex();
+            Save = false;
         }
 
         /* instance method for singleton pattern */
@@ -77,6 +83,13 @@ namespace Ex3.Models
             string throttleStr = Client.Instance.ReadAnswerFromServer();
             DF.Throttle = GetDoubleFromString(throttleStr);
 
+            string data = lonStr + "~" + latStr + "~" + rudderStr + "~" + throttleStr;
+
+            if (Save)
+            {
+                SaveToFile(data);
+            }
+
             System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
             mutex.ReleaseMutex();
         }
@@ -94,6 +107,25 @@ namespace Ex3.Models
             }
             double num = Convert.ToDouble(match.Value);
             return num;
+        }
+
+        /* Save to file */
+        private void SaveToFile(string data)
+        {
+            string path = HttpContext.Current.Server.MapPath(string.Format(SCENARIO_FILE, FileName));
+            if (!File.Exists(path))
+            {
+                using (StreamWriter file = new StreamWriter(path, true))
+                {
+                    file.WriteLine(data);
+                }
+            }
+            else
+            {
+                string[] line = new string[1];
+                line[0] = data;
+                File.AppendAllLines(path, line);
+            }
         }
     }
 }

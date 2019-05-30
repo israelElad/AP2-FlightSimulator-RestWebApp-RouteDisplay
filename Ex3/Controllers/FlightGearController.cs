@@ -29,10 +29,8 @@ namespace Ex3.Controllers
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
             Session["Time"] = time;
-
             InfoModel.Instance.ReadAlways(ip, port);
-            Session["Lon"] = InfoModel.Instance.DF.Lon;
-            Session["Lat"] = InfoModel.Instance.DF.Lat;
+
             return View();
         }
 
@@ -69,7 +67,13 @@ namespace Ex3.Controllers
         [HttpGet]
         public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
         {
-            SaveFlightData saveFlightData = new SaveFlightData(ip, port, time,duration,fileName);
+            InfoModel.Instance.Save = true;
+
+            Session["Time"] = time;
+            Session["duration"] = duration;
+            InfoModel.Instance.FileName = fileName;
+            InfoModel.Instance.ReadAlways(ip, port);
+
             return View();
         }
     }

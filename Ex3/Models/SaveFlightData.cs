@@ -11,29 +11,16 @@ namespace Ex3.Models
      */
     public class SaveFlightData
     {
-        string ip;
-        int port;
         int time;
-        string fileName;
         int totalTime;
         int elapsedTime;
 
-        string[] flightData = new string [512]; //TODO: 512 ?
         int flightDataIndex = 0;
-
-        public const string SCENARIO_FILE = "~/App_Data/{0}.txt";           // The Path of the Secnario
 
         Timer timer;
 
         public SaveFlightData(string ip, int port, int time, int duration, string fileName)
         {
-            this.ip = ip;
-            this.port = port;
-            this.time = time;
-            this.fileName = fileName;
-            InitializeTimer(time);
-            totalTime = duration * 1;
-            elapsedTime = 0;
         }
 
         /*
@@ -62,26 +49,6 @@ namespace Ex3.Models
             //flightData[flightDataIndex] = displayUtils.Lat + "~" + displayUtils.Lon + "~" + displayUtils.Rudder + "~" + displayUtils.Throttle;
             flightDataIndex++;
             elapsedTime += 1000 / time;
-        }
-
-        /*
-         * Save to file
-         */ 
-        private void SaveToFile(string data)
-        {
-            string path = HttpContext.Current.Server.MapPath(String.Format(SCENARIO_FILE, "file1"));
-            if (!File.Exists(path))
-            {
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(path, true))
-                {
-                    file.WriteLine("hello");
-                }
-            }
-            else
-            {
-                //string s = { "hi", "bye" };
-                //File.AppendAllLines(s);
-            }
         }
     }
 }

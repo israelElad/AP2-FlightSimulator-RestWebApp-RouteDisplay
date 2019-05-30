@@ -111,7 +111,6 @@
     </Compile>
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\DisplayFlight.cs" />
-    <Compile Include="Models\DisplayRefreshingLocation.cs" />
     <Compile Include="Models\InfoModel.cs" />
     <Compile Include="Models\SaveFlightData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
