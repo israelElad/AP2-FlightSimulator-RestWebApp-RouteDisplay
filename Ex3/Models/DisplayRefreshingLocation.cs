@@ -3,7 +3,6 @@ using System.Timers;
 
 namespace Ex3.Models
 {
-
     /* Sample 4 times per second the position of the plane and displaying it on the map */
     public class DisplayRefreshingLocation
     {
