@@ -86,6 +86,8 @@ namespace Ex3.Controllers
             Session["Duration"] = duration;
             InfoModel.Instance.FileName = fileName;
             InfoModel.Instance.ReadAlways(ip, port);
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
 
             return View("DisplayOrSaveRefreshingLocation");
         }
