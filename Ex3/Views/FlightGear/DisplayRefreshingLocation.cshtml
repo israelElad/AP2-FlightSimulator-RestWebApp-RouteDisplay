@@ -10,23 +10,27 @@
     <script>
         var map = document.getElementById("map");
 
-        var x = (@Session["Lon"] + 180) * (map.offsetWidth / 360);
-        var y = (@Session["Lat"] + 90) * (map.offsetHeight / 180);
+        var Lon = @Session["Lon"];
+        var Lat = @Session["Lat"]; 
+
+        var x = (Lon + 180) * (map.offsetWidth / 360);
+        var y = (Lat + 90) * (map.offsetHeight / 180);
         document.getElementById("airplane").style.top = y + "px";
         document.getElementById("airplane").style.left = x + "px";
 
         Timer = (function () {
             $.post("@Url.Action("GetFlightData")").done(function (xml) {
+
                 var xmlDoc = $.parseXML(xml),
-                $xml = $( xmlDoc ),
-                Lat = $xml.find( "Lat" ).text();
-                Lon = $xml.find( "Lon" ).text();
+                $xml = $(xmlDoc),
+                Lat = $xml.find("Lat").text();
+                Lon = $xml.find("Lon").text();
 
-                $("#prodLat").text(Lat);
                 $("#prodLon").text(Lon);
+                $("#prodLat").text(Lat);
 
-                var x = (Lon + 180) * (map.offsetWidth / 360);
-                var y = (Lat + 90) * (map.offsetHeight / 180);
+                x = (Lon + 180) * (map.offsetWidth / 360);
+                y = (Lat + 90) * (map.offsetHeight / 180);
                 document.getElementById("airplane").style.top = y + "px";
                 document.getElementById("airplane").style.left = x + "px";
             });
