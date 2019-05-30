@@ -29,9 +29,10 @@ namespace Ex3.Controllers
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
             Session["Time"] = time;
+            Session["Duration"] = -1;
             InfoModel.Instance.ReadAlways(ip, port);
 
-            return View();
+            return View("DisplayOrSaveRefreshingLocation");
         }
 
         [HttpPost]
@@ -70,11 +71,11 @@ namespace Ex3.Controllers
             InfoModel.Instance.Save = true;
 
             Session["Time"] = time;
-            Session["duration"] = duration;
+            Session["Duration"] = duration;
             InfoModel.Instance.FileName = fileName;
             InfoModel.Instance.ReadAlways(ip, port);
 
-            return View();
+            return View("DisplayOrSaveRefreshingLocation");
         }
     }
 }
