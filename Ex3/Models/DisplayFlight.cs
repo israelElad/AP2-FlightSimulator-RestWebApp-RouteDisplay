@@ -11,6 +11,7 @@ namespace Ex3.Models
 
         public void ToXml(XmlWriter writer)
         {
+
             writer.WriteStartElement("Display");
             writer.WriteElementString("Lon", this.Lon.ToString());
             writer.WriteElementString("Lat", this.Lat.ToString());
