@@ -43,7 +43,7 @@ namespace Ex3.Models
             // connect the plane
             Client.Instance.ConnectToServer(ip, port);
 
-            Read();            
+            Read();
         }
 
         public void ReadAlways(string ip, int port)
@@ -90,7 +90,7 @@ namespace Ex3.Models
                 SaveToFile(data);
             }
 
-            System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
+            //System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
             mutex.ReleaseMutex();
         }
 
@@ -118,7 +118,6 @@ namespace Ex3.Models
             {
                 using (StreamWriter file = new StreamWriter(filePath, true))
                 {
-                    System.Diagnostics.Debug.WriteLine("data = " + data);
                     file.WriteLine(data);
                 }
             }
@@ -129,6 +128,20 @@ namespace Ex3.Models
                 System.Diagnostics.Debug.WriteLine("line = " + line[0]);
                 File.AppendAllLines(filePath, line);
             }
+        }
+
+        /* load from file */
+        public void LoadFromFile()
+        {
+            string pathFormat = String.Format(SCENARIO_FILE, FileName);
+            string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
+
+            string[] lines = System.IO.File.ReadAllLines(filePath);        // reading all the lines of the file
+            string[] line = lines[0].Split('~');
+            InfoModel.instance.DF.Lon = Convert.ToDouble(line[0]);
+            InfoModel.instance.DF.Lat = Convert.ToDouble(line[1]);
+
+            System.Diagnostics.Debug.WriteLine(InfoModel.instance.DF.Lon + "///" + InfoModel.instance.DF.Lat);
         }
     }
 }

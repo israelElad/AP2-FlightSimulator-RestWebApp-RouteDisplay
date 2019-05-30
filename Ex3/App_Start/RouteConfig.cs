@@ -10,8 +10,8 @@ namespace Ex3
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             // /display/127.0.0.1/5400 
-            routes.MapRoute("DisplayLocation", "display/{ip}/{port}",
-            defaults: new { controller = "FlightGear", action = "DisplayLocation" });
+            routes.MapRoute("DisplayLocationOrLoadFlightData", "display/{IPOrFileName}/{PortOrTime}",
+            defaults: new { controller = "FlightGear", action = "DisplayLocationOrLoadFlightData" });
 
             // /display/127.0.0.1/5400/4 
             routes.MapRoute("DisplayRefreshingLocation", "display/{ip}/{port}/{time}",

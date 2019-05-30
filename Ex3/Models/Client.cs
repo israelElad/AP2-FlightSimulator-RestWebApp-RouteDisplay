@@ -57,7 +57,6 @@ namespace Ex3.Models
         /* write to server */
         public void WriteToServer(String line)
         {
-            //System.Diagnostics.Debug.WriteLine("in WriteToServer "+ AppDomain.GetCurrentThreadId());
             if (IsConnected)
                 {
                         byte[] lineWithEnter = System.Text.Encoding.ASCII.GetBytes(line + "\r\n");
@@ -82,7 +81,6 @@ namespace Ex3.Models
         /* read answer from server */
         public string ReadAnswerFromServer()
         {
-            //System.Diagnostics.Debug.WriteLine("in ReadAnswerFromServer " + AppDomain.GetCurrentThreadId());
             byte[] buffer = new byte[512];
             soc.Receive(buffer);
             string bufferStr = System.Text.Encoding.ASCII.GetString(buffer);
