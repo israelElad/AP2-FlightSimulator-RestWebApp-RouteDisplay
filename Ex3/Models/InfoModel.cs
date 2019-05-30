@@ -13,7 +13,7 @@ namespace Ex3.Models
         public string FileName { get; set; }
         public bool Save { get; set; }
 
-        public const string SCENARIO_FILE = "~/App_Data/{0}.txt";           // The Path of the Secnario
+        public const string SCENARIO_FILE = "App_Data/{0}.txt";           // The Path of the Secnario
 
         // instance for singleton pattern
         private static InfoModel instance = null;
@@ -83,7 +83,7 @@ namespace Ex3.Models
             string throttleStr = Client.Instance.ReadAnswerFromServer();
             DF.Throttle = GetDoubleFromString(throttleStr);
 
-            string data = lonStr + "~" + latStr + "~" + rudderStr + "~" + throttleStr;
+            string data = DF.Lon + "~" + DF.Lat + "~" + DF.Rudder + "~" + DF.Throttle;
 
             if (Save)
             {
@@ -112,19 +112,22 @@ namespace Ex3.Models
         /* Save to file */
         private void SaveToFile(string data)
         {
-            string path = HttpContext.Current.Server.MapPath(string.Format(SCENARIO_FILE, FileName));
-            if (!File.Exists(path))
+            string pathFormat = String.Format(SCENARIO_FILE, FileName);
+            string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
+            if (!File.Exists(filePath))
             {
-                using (StreamWriter file = new StreamWriter(path, true))
+                using (StreamWriter file = new StreamWriter(filePath, true))
                 {
+                    System.Diagnostics.Debug.WriteLine("data = " + data);
                     file.WriteLine(data);
                 }
             }
             else
             {
                 string[] line = new string[1];
-                line[0] = data;
-                File.AppendAllLines(path, line);
+                line[0] = string.Copy(data);
+                System.Diagnostics.Debug.WriteLine("line = " + line[0]);
+                File.AppendAllLines(filePath, line);
             }
         }
     }
