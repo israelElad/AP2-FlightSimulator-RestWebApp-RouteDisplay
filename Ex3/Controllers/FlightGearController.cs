@@ -17,7 +17,7 @@ namespace Ex3.Controllers
         /* Sample only one time the position of the plane and displaying it on the map *or* load flight
          * data from file and display it like an animation */
         [HttpGet]
-        public ActionResult DisplayLocationOrLoadFlightData(string IPOrFileName, int PortOrTime)
+        public ActionResult DisplayLocationOrLoadRefreshingLocation(string IPOrFileName, int PortOrTime)
         {
             IPAddress ip;
             if (IPAddress.TryParse(IPOrFileName, out ip))
@@ -30,7 +30,7 @@ namespace Ex3.Controllers
             }
             Session["Time"] = PortOrTime;
             InfoModel.Instance.FileName = IPOrFileName;
-            return View("LoadFlightData");
+            return View("LoadRefreshingLocation");
         }
 
         /* Sample 4 times per second the position of the plane and displaying it on the map */
@@ -52,8 +52,6 @@ namespace Ex3.Controllers
         [HttpGet]
         public ActionResult SaveRefreshingLocation(string ip, int port, int time, int duration, string fileName)
         {
-            InfoModel.Instance.Save = true;
-
             Session["Time"] = time;
             Session["Duration"] = duration;
             InfoModel.Instance.FileName = fileName;
@@ -62,23 +60,6 @@ namespace Ex3.Controllers
             Session["Lat"] = InfoModel.Instance.DF.Lat;
 
             return View();
-        }
-
-        /*
-         * * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
-         * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
-         */
-        [HttpGet]
-        public ActionResult SaveFlightData(string ip, int port, int time, int duration, string fileName)
-        {
-            Session["Time"] = time;
-            Session["Duration"] = duration;
-            InfoModel.Instance.FileName = fileName;
-            InfoModel.Instance.ReadAlways(ip, port);
-            Session["Lon"] = InfoModel.Instance.DF.Lon;
-            Session["Lat"] = InfoModel.Instance.DF.Lat;
-
-            return View("DisplayOrSaveRefreshingLocation");
         }
 
         [HttpPost]
@@ -103,9 +84,11 @@ namespace Ex3.Controllers
         public string LoadFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
-
-            InfoModel.Instance.LoadFlightDataFromFile();
-
+            if (InfoModel.Instance.flightData==null) //TODO
+            {
+                InfoModel.Instance.LoadFlightDataFromFile();
+            }
+            InfoModel.Instance.UpdateFlightDataInDisplayFlight();
             return ToXml(displayFlight);
         }
 
@@ -121,7 +104,7 @@ namespace Ex3.Controllers
 
             display.ToXml(writer);
 
-            writer.WriteEndElement();
+            writer.WriteEndElement(); //todo: needed?
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
