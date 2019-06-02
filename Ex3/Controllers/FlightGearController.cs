@@ -20,6 +20,7 @@ namespace Ex3.Controllers
         public ActionResult DisplayLocationOrLoadRefreshingLocation(string IPOrFileName, int PortOrTime)
         {
             IPAddress ip;
+            // If the IP address is correct -> view = DisplayLocation
             if (IPAddress.TryParse(IPOrFileName, out ip))
             {
                 InfoModel.Instance.ReadOnce(IPOrFileName, PortOrTime);
@@ -28,6 +29,7 @@ namespace Ex3.Controllers
 
                 return View("DisplayLocation");
             }
+            // Else, view = LoadRefreshingLocation
             Session["Time"] = PortOrTime;
             InfoModel.Instance.FileName = IPOrFileName;
             return View("LoadRefreshingLocation");

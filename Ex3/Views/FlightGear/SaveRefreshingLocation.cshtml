@@ -18,12 +18,8 @@
 
         var Lat, Lon, x, y, lastX, lastY;
 
-        var i = 0;
-
         Timer = (function () {
             $.post("@Url.Action("SaveFlightData")").done(function (xml) {
-                i++;
-                console.log("In timer: " + i);
                 var xmlDoc = $.parseXML(xml),
                     $xml = $(xmlDoc),
                 Lat = $xml.find("Lat").text();
@@ -35,13 +31,14 @@
                 x = (parseFloat(Lon) + 180) * (window.innerWidth / 360);
                 y = (parseFloat(Lat) + 90) * (window.innerHeight / 180);
 
-                // draw
+                // draw point
                 ctx.beginPath();
                 ctx.fillStyle = "red";
                 ctx.arc(x, y, 5, 0, 2 * Math.PI);
                 ctx.fill();
                 ctx.stroke();
 
+                // draw line
                 ctx.beginPath();
                 if (typeof lastX == 'undefined') {
                     ctx.moveTo(x, y);
@@ -55,13 +52,13 @@
                 lastY = y;
             });
         });
+
+        // timer stuff
         var setIntervalRetVal=setInterval(Timer, @Session["Time"] * 1000);
         setTimeout(stopTimer,@Session["Duration"] * 1000);
         function stopTimer() {
             clearInterval(setIntervalRetVal);
         }
-        console.log("Duration: "+ @Session["Duration"]);
-        console.log("Time: "+ @Session["Time"]);
         Timer();
     </script>
 </body>

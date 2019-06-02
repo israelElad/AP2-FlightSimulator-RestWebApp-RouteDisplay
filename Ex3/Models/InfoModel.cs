@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -115,6 +114,7 @@ namespace Ex3.Models
 
             string pathFormat = String.Format(SCENARIO_FILE, FileName);
             string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
+            // If the file does not exist - create it and write to it
             if (!File.Exists(filePath))
             {
                 using (StreamWriter file = new StreamWriter(filePath, true))
@@ -122,6 +122,7 @@ namespace Ex3.Models
                     file.WriteLine(data);
                 }
             }
+            // Else, just write to it
             else
             {
                 string[] line = new string[1];
@@ -135,12 +136,15 @@ namespace Ex3.Models
         {
             string pathFormat = String.Format(SCENARIO_FILE, FileName);
             string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
-            flightData = System.IO.File.ReadAllLines(filePath);        // reading all the lines of the file
+            // reading all the lines of the file
+            flightData = System.IO.File.ReadAllLines(filePath);        
             flightDataIndex =0;
-    }
+        }
 
-    public void UpdateFlightDataInDisplayFlight()
+        // Updating LAT and LON once by file
+        public void UpdateFlightDataInDisplayFlight()
         {
+            // If the file is finished
             if (flightDataIndex >= flightData.Length)
             {
                 DF.EOF = "true";

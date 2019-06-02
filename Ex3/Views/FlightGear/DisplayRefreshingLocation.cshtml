@@ -17,12 +17,8 @@
 
         var Lat, Lon, x, y, lastX, lastY;
 
-        var i = 0;
-
         Timer = (function () {
             $.post("@Url.Action("GetFlightData")").done(function (xml) {
-                i++;
-                console.log("In timer: " + i);
                 var xmlDoc = $.parseXML(xml),
                     $xml = $(xmlDoc),
                 Lat = $xml.find("Lat").text();
