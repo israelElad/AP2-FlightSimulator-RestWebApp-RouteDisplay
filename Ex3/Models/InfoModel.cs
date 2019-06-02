@@ -11,7 +11,6 @@ namespace Ex3.Models
         public DisplayFlight DF { get; set; }
         private Mutex mutex;
         public string FileName { get; set; }
-        public bool Save { get; set; }
 
         public const string SCENARIO_FILE = "App_Data/{0}.txt";           // The Path of the Secnario
 
@@ -22,7 +21,6 @@ namespace Ex3.Models
         {
             DF = new DisplayFlight();
             mutex = new Mutex();
-            Save = false;
         }
 
         /* instance method for singleton pattern */
@@ -87,13 +85,6 @@ namespace Ex3.Models
             string throttleStr = Client.Instance.ReadAnswerFromServer();
             DF.Throttle = GetDoubleFromString(throttleStr);
 
-            string data = DF.Lon + "~" + DF.Lat + "~" + DF.Rudder + "~" + DF.Throttle;
-
-            if (Save)
-            {
-                SaveToFile(data);
-            }
-
             //System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
             mutex.ReleaseMutex();
         }
@@ -114,8 +105,10 @@ namespace Ex3.Models
         }
 
         /* Save to file */
-        private void SaveToFile(string data)
+        public void SaveFlightDataToFile()
         {
+            string data = DF.Lon + "~" + DF.Lat + "~" + DF.Rudder + "~" + DF.Throttle;
+
             string pathFormat = String.Format(SCENARIO_FILE, FileName);
             string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
             if (!File.Exists(filePath))
@@ -134,7 +127,7 @@ namespace Ex3.Models
         }
 
         /* load from file */
-        public void LoadFromFile()
+        public void LoadFlightDataFromFile()
         {
             string pathFormat = String.Format(SCENARIO_FILE, FileName);
             string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
