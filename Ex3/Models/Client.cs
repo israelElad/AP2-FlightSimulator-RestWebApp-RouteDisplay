@@ -92,6 +92,7 @@ namespace Ex3.Models
         {
             soc.Close();
             IsConnected = false;
+            System.Diagnostics.Debug.WriteLine("Client closed!");
         }
     }
 }

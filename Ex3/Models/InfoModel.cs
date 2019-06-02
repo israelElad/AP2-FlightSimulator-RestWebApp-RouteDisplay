@@ -47,6 +47,7 @@ namespace Ex3.Models
                 Client.Instance.ConnectToServer(ip, port);
             }
             Read();
+            Client.Instance.CloseClient();
         }
 
         public void ReadAlways(string ip, int port)

@@ -84,7 +84,7 @@ namespace Ex3.Controllers
         public string LoadFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
-            if (InfoModel.Instance.flightData==null) //TODO
+            if (InfoModel.Instance.flightData==null)
             {
                 InfoModel.Instance.LoadFlightDataFromFile();
             }
