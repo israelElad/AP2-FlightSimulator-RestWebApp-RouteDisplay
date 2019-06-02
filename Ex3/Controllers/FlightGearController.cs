@@ -119,7 +119,7 @@ namespace Ex3.Controllers
 
             display.ToXml(writer);
 
-            writer.WriteEndElement(); //todo: needed?
+            writer.WriteEndElement(); 
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
