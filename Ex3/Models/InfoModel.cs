@@ -40,22 +40,26 @@ namespace Ex3.Models
 
         public void ReadOnce(string ip, int port)
         {
-            // connect the plane
-            if (!Client.Instance.IsConnected)
+            // disconnect if connected
+            if (Client.Instance.IsConnected)
             {
-                Client.Instance.ConnectToServer(ip, port);
+                Client.Instance.CloseClient();
             }
+            //connect to FlightGear's server
+            Client.Instance.ConnectToServer(ip, port);
             Read();
             Client.Instance.CloseClient();
         }
 
         public void ReadAlways(string ip, int port)
         {
-            // connect the plane
-            if (!Client.Instance.IsConnected)
+            // disconnect if connected
+            if (Client.Instance.IsConnected)
             {
-                Client.Instance.ConnectToServer(ip, port);
+                Client.Instance.CloseClient();
             }
+            //connect to FlightGear's server
+            Client.Instance.ConnectToServer(ip, port);
             Thread thread = new Thread(() =>
             {
                 while (true)
