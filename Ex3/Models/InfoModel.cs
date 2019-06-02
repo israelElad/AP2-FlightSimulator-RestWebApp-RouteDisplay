@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11,6 +12,8 @@ namespace Ex3.Models
         public DisplayFlight DF { get; set; }
         private Mutex mutex;
         public string FileName { get; set; }
+        public string[] flightData;
+        private int flightDataIndex;
 
         public const string SCENARIO_FILE = "App_Data/{0}.txt";           // The Path of the Secnario
 
@@ -43,7 +46,7 @@ namespace Ex3.Models
             {
                 Client.Instance.ConnectToServer(ip, port);
             }
-            Read();          
+            Read();
         }
 
         public void ReadAlways(string ip, int port)
@@ -85,7 +88,7 @@ namespace Ex3.Models
             string throttleStr = Client.Instance.ReadAnswerFromServer();
             DF.Throttle = GetDoubleFromString(throttleStr);
 
-            //System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
+            System.Diagnostics.Debug.WriteLine(DF.Lat + "----" + DF.Lon + "----" + DF.Rudder + "----" + DF.Throttle);
             mutex.ReleaseMutex();
         }
 
@@ -131,13 +134,24 @@ namespace Ex3.Models
         {
             string pathFormat = String.Format(SCENARIO_FILE, FileName);
             string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
+            flightData = System.IO.File.ReadAllLines(filePath);        // reading all the lines of the file
+            flightDataIndex =0;
+    }
 
-            string[] lines = System.IO.File.ReadAllLines(filePath);        // reading all the lines of the file
-            string[] line = lines[0].Split('~');
-            InfoModel.instance.DF.Lon = Convert.ToDouble(line[0]);
-            InfoModel.instance.DF.Lat = Convert.ToDouble(line[1]);
-
-            System.Diagnostics.Debug.WriteLine(InfoModel.instance.DF.Lon + "///" + InfoModel.instance.DF.Lat);
+    public void UpdateFlightDataInDisplayFlight()
+        {
+            if (flightDataIndex >= flightData.Length)
+            {
+                DF.EOF = "true";
+                InfoModel.Instance.flightData = null;
+                return;
+            }
+            string[] line = flightData[flightDataIndex].Split('~');
+            DF.Lon = Convert.ToDouble(line[0]);
+            DF.Lat = Convert.ToDouble(line[1]);
+            DF.EOF = "false";
+            flightDataIndex++;
+            System.Diagnostics.Debug.WriteLine(DF.Lon + "///" +DF.Lat);
         }
     }
 }

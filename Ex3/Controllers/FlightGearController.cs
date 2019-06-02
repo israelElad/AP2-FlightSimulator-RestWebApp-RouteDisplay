@@ -17,7 +17,7 @@ namespace Ex3.Controllers
         /* Sample only one time the position of the plane and displaying it on the map *or* load flight
          * data from file and display it like an animation */
         [HttpGet]
-        public ActionResult DisplayLocationOrLoadFlightData(string IPOrFileName, int PortOrTime)
+        public ActionResult DisplayLocationOrLoadRefreshingLocation(string IPOrFileName, int PortOrTime)
         {
             IPAddress ip;
             if (IPAddress.TryParse(IPOrFileName, out ip))
@@ -28,7 +28,7 @@ namespace Ex3.Controllers
             }
             Session["Time"] = PortOrTime;
             InfoModel.Instance.FileName = IPOrFileName;
-            return View("LoadFlightData");
+            return View("LoadRefreshingLocation");
         }
 
         /* Sample 4 times per second the position of the plane and displaying it on the map */
@@ -67,6 +67,8 @@ namespace Ex3.Controllers
             Session["Duration"] = duration;
             InfoModel.Instance.FileName = fileName;
             InfoModel.Instance.ReadAlways(ip, port);
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
 
             return View("DisplayOrSaveRefreshingLocation");
         }
@@ -93,9 +95,11 @@ namespace Ex3.Controllers
         public string LoadFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
-
-            InfoModel.Instance.LoadFlightDataFromFile();
-
+            if (InfoModel.Instance.flightData==null) 
+            {
+                InfoModel.Instance.LoadFlightDataFromFile();
+            }
+            InfoModel.Instance.UpdateFlightDataInDisplayFlight();
             return ToXml(displayFlight);
         }
 
@@ -111,7 +115,7 @@ namespace Ex3.Controllers
 
             display.ToXml(writer);
 
-            writer.WriteEndElement();
+            writer.WriteEndElement(); //todo: needed?
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
