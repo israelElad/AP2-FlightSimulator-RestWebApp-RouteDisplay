@@ -41,15 +41,20 @@ namespace Ex3.Models
         public void ReadOnce(string ip, int port)
         {
             // connect the plane
-            Client.Instance.ConnectToServer(ip, port);
-            Read();            
+            if (!Client.Instance.IsConnected)
+            {
+                Client.Instance.ConnectToServer(ip, port);
+            }
+            Read();          
         }
 
         public void ReadAlways(string ip, int port)
         {
             // connect the plane
-            Client.Instance.ConnectToServer(ip, port);
-
+            if (!Client.Instance.IsConnected)
+            {
+                Client.Instance.ConnectToServer(ip, port);
+            }
             Thread thread = new Thread(() =>
             {
                 while (true)
