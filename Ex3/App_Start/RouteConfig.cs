@@ -18,8 +18,8 @@ namespace Ex3
             defaults: new { controller = "FlightGear", action = "DisplayRefreshingLocation" });
 
             // /save/127.0.0.1/5400/4/10/flight1 
-            routes.MapRoute("SaveFlightData", "save/{ip}/{port}/{time}/{duration}/{fileName}",
-            defaults: new { controller = "FlightGear", action = "SaveFlightData" });
+            routes.MapRoute("SaveRefreshingLocation", "save/{ip}/{port}/{time}/{duration}/{fileName}",
+            defaults: new { controller = "FlightGear", action = "SaveRefreshingLocation" });
 
             // default
             routes.MapRoute(
