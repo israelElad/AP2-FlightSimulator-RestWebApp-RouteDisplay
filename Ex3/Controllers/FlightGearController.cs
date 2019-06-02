@@ -39,12 +39,30 @@ namespace Ex3.Controllers
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
             Session["Time"] = time;
-            Session["Duration"] = -1;
             InfoModel.Instance.ReadAlways(ip, port);
             Session["Lon"] = InfoModel.Instance.DF.Lon;
             Session["Lat"] = InfoModel.Instance.DF.Lat;
 
-            return View("DisplayOrSaveRefreshingLocation");
+            return View();
+        }
+
+        /*
+        * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
+        * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
+         */
+        [HttpGet]
+        public ActionResult SaveRefreshingLocation(string ip, int port, int time, int duration, string fileName)
+        {
+            InfoModel.Instance.Save = true;
+
+            Session["Time"] = time;
+            Session["Duration"] = duration;
+            InfoModel.Instance.FileName = fileName;
+            InfoModel.Instance.ReadAlways(ip, port);
+            Session["Lon"] = InfoModel.Instance.DF.Lon;
+            Session["Lat"] = InfoModel.Instance.DF.Lat;
+
+            return View();
         }
 
         [HttpPost]
@@ -71,25 +89,6 @@ namespace Ex3.Controllers
             writer.WriteEndDocument();
             writer.Flush();
             return sb.ToString();
-        }
-
-        /*
-        * Sample(with the given rate for the duration received) and save the flight data from the given IP and port.
-        * for example, can be accessed via the following uri: /save/127.0.0.1/5400/4/10/flight1
-         */
-        [HttpGet]
-        public ActionResult SaveFlightData(string ip, int port, int time,int duration, string fileName)
-        {
-            InfoModel.Instance.Save = true;
-
-            Session["Time"] = time;
-            Session["Duration"] = duration;
-            InfoModel.Instance.FileName = fileName;
-            InfoModel.Instance.ReadAlways(ip, port);
-            Session["Lon"] = InfoModel.Instance.DF.Lon;
-            Session["Lat"] = InfoModel.Instance.DF.Lat;
-
-            return View("DisplayOrSaveRefreshingLocation");
         }
     }
 }
