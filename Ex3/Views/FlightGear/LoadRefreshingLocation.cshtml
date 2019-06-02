@@ -2,26 +2,21 @@
     ViewBag.Title = "LoadRefreshingLocation";
 }
 
-
-<img id="airplane" src="~/Image/airplane.png" alt="airplane" style="position:absolute; height:25px; width:25px" ; />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<canvas id="myCanvas"></canvas>
+<canvas id="myCanvas" style="position:absolute; top: 0; left: 0;"></canvas>
 
 <body>
     <script>
         // get Elements
-        var airplane = document.getElementById("airplane");
         var canvas = document.getElementById("myCanvas");
 
         // Init canvas
-        canvas.style.width = window.innerWidth;
-        canvas.style.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         var ctx = canvas.getContext("2d");
 
-        var Lon;
-        var Lat;
-        var x;
-        var y;
+        var Lat, Lon, x, y, lastX, lastY;
+
         var i = 0;
         var EOF;
 
@@ -29,10 +24,10 @@
             $.post("@Url.Action("LoadFlightData")").done(function (xml) {
                 i++;
                 console.log("In timer: " + i);
-                    var xmlDoc = $.parseXML(xml),
-                        $xml = $(xmlDoc),
-                        Lat = $xml.find("Lat").text();
-                    Lon = $xml.find("Lon").text();
+                var xmlDoc = $.parseXML(xml),
+                    $xml = $(xmlDoc),
+                Lat = $xml.find("Lat").text();
+                Lon = $xml.find("Lon").text();
                 EOF = $xml.find("EOF").text();
                 if (EOF === "true") {
                     stopTimer();
@@ -40,14 +35,30 @@
                     return;
                 }
 
-                    $("#prodLon").text(Lon);
-                    $("#prodLat").text(Lat);
+                $("#prodLon").text(Lon);
+                $("#prodLat").text(Lat);
 
-                    x = (parseFloat(Lon) + 180) * (window.innerWidth / 360);
-                    y = (parseFloat(Lat) + 90) * (window.innerHeight / 180);
+                x = (parseFloat(Lon) + 180) * (window.innerWidth / 360);
+                y = (parseFloat(Lat) + 90) * (window.innerHeight / 180);
 
-                    airplane.style.top = y + "px";
-                    airplane.style.left = x + "px";
+                // draw
+                ctx.beginPath();
+                ctx.fillStyle = "red";
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.beginPath();
+                if (typeof lastX == 'undefined') {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.moveTo(lastX, lastY);
+                }
+                ctx.lineTo(x, y);
+                ctx.stroke();
+
+                lastX = x;
+                lastY = y;
             });
         });
         var setIntervalRetVal=setInterval(Timer, @Session["Time"] * 1000);

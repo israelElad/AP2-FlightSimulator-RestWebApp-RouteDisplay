@@ -23,6 +23,8 @@ namespace Ex3.Controllers
             if (IPAddress.TryParse(IPOrFileName, out ip))
             {
                 InfoModel.Instance.ReadOnce(IPOrFileName, PortOrTime);
+                Session["Lon"] = InfoModel.Instance.DF.Lon;
+                Session["Lat"] = InfoModel.Instance.DF.Lat;
 
                 return View("DisplayLocation");
             }
