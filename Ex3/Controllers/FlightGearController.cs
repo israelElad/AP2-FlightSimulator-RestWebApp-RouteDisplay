@@ -23,7 +23,15 @@ namespace Ex3.Controllers
             // If the IP address is correct -> view = DisplayLocation
             if (IPAddress.TryParse(IPOrFileName, out ip))
             {
-                InfoModel.Instance.ReadOnce(IPOrFileName, PortOrTime);
+                // disconnect if connected
+                if (Client.Instance.IsConnected)
+                {
+                    Client.Instance.CloseClient();
+                }
+                Client.Instance.ConnectToServer(IPOrFileName, PortOrTime);
+
+                InfoModel.Instance.ReadOnce();
+
                 Session["Lon"] = InfoModel.Instance.DF.Lon;
                 Session["Lat"] = InfoModel.Instance.DF.Lat;
 
@@ -40,7 +48,13 @@ namespace Ex3.Controllers
         public ActionResult DisplayRefreshingLocation(string ip, int port, int time)
         {
             Session["Time"] = time;
-            InfoModel.Instance.ReadAlways(ip, port);
+
+            // disconnect if connected
+            if (Client.Instance.IsConnected)
+            {
+                Client.Instance.CloseClient();
+            }
+            Client.Instance.ConnectToServer(ip, port);
 
             return View();
         }
@@ -57,33 +71,58 @@ namespace Ex3.Controllers
             Session["Time"] = time;
             Session["Duration"] = duration;
             InfoModel.Instance.FileName = fileName;
-            InfoModel.Instance.ReadAlways(ip, port);
+
+            // disconnect if connected
+            if (Client.Instance.IsConnected)
+            {
+                Client.Instance.CloseClient();
+            }
+            Client.Instance.ConnectToServer(ip, port);
 
             return View();
         }
 
+        /*
+         * Called every 'time' seconds from the view,
+         * each time reading the flight's data from the server,
+         * and passing their value as xml to the view.
+         */
         [HttpPost]
         public string GetFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
 
+            InfoModel.Instance.ReadOnce();
+
             return ToXml(displayFlight);
         }
 
+        /*
+         * Called every 'time' seconds for 'duration' seconds from the view,
+         * each time reading the flight's data from the server, saving them to a file,
+         * and passing their value as xml to the view.
+         */
         [HttpPost]
         public string SaveFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
 
+            InfoModel.Instance.ReadOnce();
             InfoModel.Instance.SaveFlightDataToFile();
 
             return ToXml(displayFlight);
         }
 
+        /*
+         * Called every 'time' seconds from the view,
+         * each time reading the flight's data from the file,
+         * and passing their value as xml to the view.
+         */
         [HttpPost]
         public string LoadFlightData()
         {
             DisplayFlight displayFlight = InfoModel.Instance.DF;
+            //only load the file to the List at the first time that the function is called
             if (InfoModel.Instance.flightData==null) 
             {
                 InfoModel.Instance.LoadFlightDataFromFile();
@@ -92,6 +131,9 @@ namespace Ex3.Controllers
             return ToXml(displayFlight);
         }
 
+        /*
+         * Writes all data to a xml file.
+         */
         private string ToXml(DisplayFlight display)
         {
             //Initiate XML stuff

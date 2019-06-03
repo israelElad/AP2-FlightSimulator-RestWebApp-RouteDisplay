@@ -38,34 +38,7 @@ namespace Ex3.Models
             }
         }
 
-        public void ReadOnce(string ip, int port)
-        {
-            // disconnect if connected
-            if (!Client.Instance.IsConnected)
-            {
-                Client.Instance.ConnectToServer(ip, port);
-            }
-            Read();
-        }
-
-        public void ReadAlways(string ip, int port)
-        {
-            // disconnect if connected
-            if (!Client.Instance.IsConnected)
-            {
-                Client.Instance.ConnectToServer(ip, port);
-            }
-            
-            Thread thread = new Thread(() =>
-            {
-                while (true)
-                {
-                    Read();
-                }
-            }); thread.Start();
-        }
-
-        private void Read()
+        public void ReadOnce()
         {
             mutex.WaitOne();
             // Read Lat's value
