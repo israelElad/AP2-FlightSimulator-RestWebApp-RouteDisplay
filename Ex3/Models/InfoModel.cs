@@ -158,5 +158,17 @@ namespace Ex3.Models
             flightDataIndex++;
             System.Diagnostics.Debug.WriteLine(DF.Lon + "///" +DF.Lat);
         }
+
+        // clear the file
+        public void ClearFile()
+        {
+            string pathFormat = String.Format(SCENARIO_FILE, FileName);
+            string filePath = Path.Combine(HttpRuntime.AppDomainAppPath, pathFormat);
+            //if the file is exist - clear it
+            if (File.Exists(filePath))
+            {
+                System.IO.File.WriteAllText(filePath,string.Empty);
+            }
+        }
     }
 }

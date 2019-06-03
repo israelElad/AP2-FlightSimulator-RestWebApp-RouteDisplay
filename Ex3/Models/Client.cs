@@ -63,7 +63,6 @@ namespace Ex3.Models
                         try
                         {
                             soc.Send(lineWithEnter);
-                            Thread.Sleep(2000);
                         }
                         catch
                         {
