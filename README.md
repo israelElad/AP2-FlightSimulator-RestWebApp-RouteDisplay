@@ -1,4 +1,4 @@
-# AP2-FlightSimulator-RestWebApp-RouteDisplay
+# AP2-FlightSimulator-RestWebApp-RouteDisplay 
 Second year second semester- "Advanced programming 2" course- Rest Web App- a map that displays the route according to different URIs 
 
 In this project, we have written a web application in REST architecture, whose purpose is to sample, display, and save the values obtained from the [FlightGear](https://www.flightgear.org/about/) simulator.<br />
